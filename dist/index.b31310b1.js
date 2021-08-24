@@ -455,29 +455,36 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"4aleK":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "processLinks", ()=>processLinks
+);
 var _footer = require("./customs-el/footer");
 var _inputs = require("./customs-el/inputs");
 var _nav = require("./customs-el/nav");
 var _buttons = require("./customs-el/buttons");
 var _router = require("./router/router");
+function processLinks(link) {
+    link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const ruta = this.getAttribute("href");
+        _router.goTo(ruta);
+    });
+}
 function main() {
     _buttons.crearButtons();
     _nav.crearNav();
     _footer.crearFooter();
     _inputs.crearInput();
     const links = document.querySelector(".relleno");
-    links.addEventListener("click", function(e) {
-        e.preventDefault();
-        const ruta = this.getAttribute("href");
-        _router.goTo(ruta);
-    });
+    processLinks(links);
     window.addEventListener("load", ()=>{
         _router.Router(location.pathname);
     });
 }
 main();
 
-},{"./router/router":"fpKnW","./customs-el/footer":"ghCnK","./customs-el/inputs":"l4tm9","./customs-el/nav":"iDbw2","./customs-el/buttons":"aiCZY"}],"fpKnW":[function(require,module,exports) {
+},{"./router/router":"fpKnW","./customs-el/footer":"ghCnK","./customs-el/inputs":"l4tm9","./customs-el/nav":"iDbw2","./customs-el/buttons":"aiCZY","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"fpKnW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Router", ()=>Router
@@ -485,12 +492,17 @@ parcelHelpers.export(exports, "Router", ()=>Router
 parcelHelpers.export(exports, "goTo", ()=>goTo
 );
 var _formComp = require("../components/form-comp");
+var _indexComp = require("../components/index-comp");
 function Router(path) {
     const routes = [
         {
             path: /\/src\/form/,
             funcion: _formComp.crearForm
-        }, 
+        },
+        {
+            path: /src\//,
+            funcion: _indexComp.crearIndex
+        }
     ];
     for (const r of routes)if (r.path.test(path)) {
         const el = r.funcion();
@@ -498,10 +510,10 @@ function Router(path) {
         if (contenedor.firstChild) {
             contenedor.innerHTML = "";
             contenedor.appendChild(el);
-            const links = document.querySelector(".vacio");
-            links.addEventListener("click", function(e) {
-                e.preventDefault();
-            });
+            const continuar = document.querySelector(".relleno");
+            const volver = document.querySelector(".vacio");
+        //processLinks(continuar)
+        //processLinks(volver)
         }
     }
 }
@@ -511,7 +523,7 @@ function goTo(path) {
     }, "", path);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../components/form-comp":"auZ4N"}],"JacNc":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../components/form-comp":"auZ4N","../components/index-comp":"wPx1A"}],"JacNc":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -551,7 +563,19 @@ parcelHelpers.export(exports, "crearForm", ()=>crearForm
 function crearForm() {
     const div = document.createElement("div");
     div.classList.add("container");
-    div.innerHTML = `\n    <nav-el></nav-el>\n    <p class = "h1"> necesitamos algunos datos más </p>\n    <input-el class="simple">Email</input-el>\n    <input-el class="simple">Comida favorita</input-el>\n    <input-el class="select"></input-el>\n    <boton-el  href="/src/agradecimiento" class="relleno">Continuar</boton-el>\n    <boton-el  href="/src/" class="vacio" >Volver</boton-el>\n    <footer-el></footer-el>\n    `;
+    div.innerHTML = `\n    <p class = "h1"> necesitamos algunos datos más </p>\n    <input-el class="simple">Email</input-el>\n    <input-el class="simple">Comida favorita</input-el>\n    <input-el class="select"></input-el>\n    <boton-el  href="/src/agradecimiento" class="relleno">Continuar</boton-el>\n    <boton-el  href="/src/" class="vacio" >Volver</boton-el>\n    `;
+    return div;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"wPx1A":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "crearIndex", ()=>crearIndex
+);
+function crearIndex() {
+    const div = document.createElement("div");
+    div.classList.add("container");
+    div.innerHTML = `\n    <H1 class="h1">Te doy la bienvenida a mi site</H1>\n    <p class="p" >Lorem ipsum dolor sit amet consectetur adipisicing elit. \n    Veniam consequuntur iure voluptas quia accusantium voluptatum\n    aspernatur provident et repudiandae quam veritatis,\n    libero porro sit beatae laboriosam a aut consequatur quidem?\n    </p> \n\n    <p class="p2" >Para continuar ingresa tu nombre</p>\n    <input-el class="simple">Nombre</input-el>\n    <boton-el href="/src/form" class="relleno" >Continuar</boton-el>\n    \n    `;
     return div;
 }
 
