@@ -5,23 +5,23 @@ export function crearButtons(){
             this.render()
         }
         render(){
-            const clase = this.classList.value
+            const clase = this.getAttribute("id")
             const valor = this.textContent
             var shadow = this.attachShadow({mode: 'open'});
             const d = document
             const BTNLleno = d.createElement("a")
             BTNLleno.textContent = valor
             BTNLleno.setAttribute("href","")
-            BTNLleno.classList.add("relleno")
+            BTNLleno.setAttribute("id","relleno")
 
             const BTNVacio = d.createElement("a")
              BTNVacio.textContent = valor
             BTNLleno.setAttribute("href","")
-            BTNVacio.classList.add("vacio")
+            BTNVacio.setAttribute("id","vacio")
             
             const style = document.createElement('style');
             style.innerHTML=`
-            .relleno{
+            #relleno{
                 height:55px;
                 width:312px;
                 font-size:22px;
@@ -33,7 +33,7 @@ export function crearButtons(){
                 align-items: center;
                 justify-content: center;
             }
-            .vacio{
+            #vacio{
                 height:55px;
                 width:312px;
                 font-size:22px;

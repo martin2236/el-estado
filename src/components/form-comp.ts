@@ -6,8 +6,8 @@ export function crearForm(){
     <input-el class="simple">Email</input-el>
     <input-el class="simple">Comida favorita</input-el>
     <input-el class="select"></input-el>
-    <boton-el  href="/src/agradecimiento" class="relleno">Continuar</boton-el>
-    <boton-el  href="/src/" class="vacio" >Volver</boton-el>
+    <boton-el id="relleno"  href="/agradecimiento" class="link">Continuar</boton-el>
+    <boton-el id="vacio"  href="/src/" class="link" >Volver</boton-el>
     `
     return div
 }

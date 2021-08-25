@@ -3,28 +3,29 @@ import { crearInput } from "./customs-el/inputs"
 import { crearNav } from "./customs-el/nav"
 import { crearButtons } from "./customs-el/buttons"
 import { goTo } from "./router/router"
-import { Router } from "./router/router"
+import { router } from "./router/router"
 
-export function processLinks(link){
-link.addEventListener("click",function(e){
-    e.preventDefault()
-    const ruta =this.getAttribute("href")
-    goTo(ruta)
-})
+export function processLinks(container){
+    const els = document.querySelectorAll(".link")
+        for (const link of els){
+        link.addEventListener("click",function(e){
+            e.preventDefault()
+            var ruta = this.getAttribute("href")
+            goTo(ruta)
+        })
+    }
 }
-
 
 function main(){
 crearButtons()
 crearNav()
 crearFooter()
 crearInput()
-const links = document.querySelector(".relleno")
-processLinks(links)
 
-
+const contenedor = document.querySelectorAll(".contenedor")
+processLinks(contenedor)
 window.addEventListener("load",()=>{
-    Router(location.pathname)
+    router(location.pathname)
 })
 }
 main()

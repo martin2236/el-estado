@@ -6,13 +6,12 @@ export function crearIndex(){
     <p class="p" >Lorem ipsum dolor sit amet consectetur adipisicing elit. 
     Veniam consequuntur iure voluptas quia accusantium voluptatum
     aspernatur provident et repudiandae quam veritatis,
-    libero porro sit beatae laboriosam a aut consequatur quidem?
+    libero porro sit beatae laboriosam a aut consequatur quidem? soy el index
     </p> 
 
     <p class="p2" >Para continuar ingresa tu nombre</p>
     <input-el class="simple">Nombre</input-el>
-    <boton-el href="/src/form" class="relleno" >Continuar</boton-el>
-    
+    <boton-el id="relleno" href="/form" class="link" >Continuar</boton-el>
     `
     return div
-}
+    }
