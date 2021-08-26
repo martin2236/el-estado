@@ -10,8 +10,8 @@ export function crearIndex(){
     </p> 
 
     <p class="p2" >Para continuar ingresa tu nombre</p>
-    <input-el class="simple">Nombre</input-el>
-    <boton-el id="relleno" href="/form" class="link" >Continuar</boton-el>
+    <formulario-el></formulario-el>
+   
     `
     return div
     }

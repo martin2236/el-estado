@@ -20,8 +20,6 @@ export function router(path){
     ]
     for(const r of rutas){
         if (r.path.test(path)){
-            console.log(path)
-            console.log(r.path)
          const el =  r.funcion()
          const contenedor = document.querySelector(".contenedor")
          if (contenedor.firstChild){

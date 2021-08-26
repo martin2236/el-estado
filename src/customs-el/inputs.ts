@@ -21,6 +21,7 @@ export function crearInput(){
             const input =d.createElement("input")
             input.classList.add("input")
             input.setAttribute("placeholder",`Ingresa tu ${tipo.toLocaleLowerCase()}`)
+            
 
             const label2 = d.createElement("label")
             label2.classList.add("label")

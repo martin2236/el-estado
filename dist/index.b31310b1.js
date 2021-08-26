@@ -464,6 +464,8 @@ var _inputs = require("./customs-el/inputs");
 var _nav = require("./customs-el/nav");
 var _buttons = require("./customs-el/buttons");
 var _router = require("./router/router");
+var _form = require("./customs-el/form");
+var _estado = require("./estado");
 function processLinks(container) {
     const els = document.querySelectorAll(".link");
     for (const link of els)link.addEventListener("click", function(e) {
@@ -473,19 +475,21 @@ function processLinks(container) {
     });
 }
 function main() {
+    _form.crearFormulario();
     _buttons.crearButtons();
     _nav.crearNav();
     _footer.crearFooter();
     _inputs.crearInput();
-    const contenedor = document.querySelectorAll(".contenedor");
-    processLinks(contenedor);
+    _estado.estado.setState({
+        nombre: ""
+    });
     window.addEventListener("load", ()=>{
         _router.router(location.pathname);
     });
 }
 main();
 
-},{"./customs-el/buttons":"aiCZY","./customs-el/footer":"ghCnK","./customs-el/inputs":"l4tm9","./customs-el/nav":"iDbw2","./router/router":"fpKnW","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"aiCZY":[function(require,module,exports) {
+},{"./customs-el/buttons":"aiCZY","./customs-el/footer":"ghCnK","./customs-el/inputs":"l4tm9","./customs-el/nav":"iDbw2","./router/router":"fpKnW","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","./customs-el/form":"4eeiO","./estado":"fObVz"}],"aiCZY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crearButtons", ()=>crearButtons
@@ -511,7 +515,7 @@ function crearButtons() {
             BTNVacio.textContent = valor;
             BTNLleno.setAttribute("href", "");
             BTNVacio.setAttribute("id", "vacio");
-            const style = document.createElement('style');
+            const style = d.createElement('style');
             style.innerHTML = `\n            #relleno{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                background: #9CBBE9;\n                text-decoration:none;\n                color:#000;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n            }\n            #vacio{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n                backgrounf:#fff;\n                border:2px solid #000;\n                text-decoration:none;\n                color:#000;\n            }\n            `;
             if (clase == "relleno") {
                 shadow.appendChild(BTNLleno);
@@ -700,8 +704,6 @@ function router(path) {
         }
     ];
     for (const r of rutas)if (r.path.test(path)) {
-        console.log(path);
-        console.log(r.path);
         const el = r.funcion();
         const contenedor = document.querySelector(".contenedor");
         if (contenedor.firstChild) contenedor.firstChild.remove();
@@ -746,9 +748,86 @@ parcelHelpers.export(exports, "crearIndex", ()=>crearIndex
 function crearIndex() {
     const div = document.createElement("div");
     div.classList.add("container");
-    div.innerHTML = `\n    <H1 class="h1">Te doy la bienvenida a mi site</H1>\n    <p class="p" >Lorem ipsum dolor sit amet consectetur adipisicing elit. \n    Veniam consequuntur iure voluptas quia accusantium voluptatum\n    aspernatur provident et repudiandae quam veritatis,\n    libero porro sit beatae laboriosam a aut consequatur quidem? soy el index\n    </p> \n\n    <p class="p2" >Para continuar ingresa tu nombre</p>\n    <input-el class="simple">Nombre</input-el>\n    <boton-el id="relleno" href="/form" class="link" >Continuar</boton-el>\n    `;
+    div.innerHTML = `\n    <H1 class="h1">Te doy la bienvenida a mi site</H1>\n    <p class="p" >Lorem ipsum dolor sit amet consectetur adipisicing elit. \n    Veniam consequuntur iure voluptas quia accusantium voluptatum\n    aspernatur provident et repudiandae quam veritatis,\n    libero porro sit beatae laboriosam a aut consequatur quidem? soy el index\n    </p> \n\n    <p class="p2" >Para continuar ingresa tu nombre</p>\n    <formulario-el></formulario-el>\n   \n    `;
     return div;
 }
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"4eeiO":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "crearFormulario", ()=>crearFormulario
+);
+var _estado = require("../estado");
+function crearFormulario() {
+    class Form extends HTMLElement {
+        constructor(){
+            super();
+            this.shadow = this.attachShadow({
+                mode: 'open'
+            });
+            this.nombre = _estado.estado.getState().nombre;
+            _estado.estado.subscribe(()=>{
+                this.nombre = _estado.estado.getState().nombre;
+                this.render();
+            });
+            this.render();
+        }
+        render() {
+            const d = document;
+            const form = d.createElement("form");
+            form.classList.add("form");
+            const label = d.createElement("label");
+            label.classList.add("label");
+            label.textContent = "Nombre";
+            const input = d.createElement("input");
+            input.classList.add("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("name", "nombre");
+            input.setAttribute("placeholder", `Ingresa tu nombre`);
+            const BTNLleno = d.createElement("button");
+            BTNLleno.textContent = "Continuar";
+            BTNLleno.setAttribute("href", "");
+            BTNLleno.setAttribute("class", "relleno");
+            const style = document.createElement('style');
+            style.innerHTML = `\n            .form{\n                height:233px;\n                width:100%;\n                font-size:30px;\n                background: #FFA0EA;\n\n            }\n            .label{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .input{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n            .relleno{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                background: #9CBBE9;\n                text-decoration:none;\n                color:#000;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n            }\n            `;
+            this.shadow.appendChild(form);
+            form.appendChild(style);
+            form.appendChild(label);
+            form.appendChild(input);
+            form.appendChild(BTNLleno);
+            const formulario = this.shadow.querySelector(".form");
+            formulario.addEventListener("submit", (e)=>{
+                e.preventDefault();
+                console.log(e.target.nombre.value);
+                _estado.estado.setState({
+                    ..._estado.estado.getState(),
+                    nombre: e.target.nombre.value
+                });
+            });
+        }
+    }
+    customElements.define("formulario-el", Form);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../estado":"fObVz"}],"fObVz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "estado", ()=>estado
+);
+const estado = {
+    data: {
+    },
+    listener: [],
+    getState () {
+        return this.data;
+    },
+    setState (newData) {
+        return this.data = newData;
+    },
+    subscribe (callback) {
+        this.listener.push(callback);
+    }
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}]},["8uBhv","4aleK"], "4aleK", "parcelRequire98b0")
 

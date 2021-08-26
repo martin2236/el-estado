@@ -8,6 +8,7 @@ export function crearButtons(){
             const clase = this.getAttribute("id")
             const valor = this.textContent
             var shadow = this.attachShadow({mode: 'open'});
+            
             const d = document
             const BTNLleno = d.createElement("a")
             BTNLleno.textContent = valor
@@ -19,7 +20,7 @@ export function crearButtons(){
             BTNLleno.setAttribute("href","")
             BTNVacio.setAttribute("id","vacio")
             
-            const style = document.createElement('style');
+            const style = d.createElement('style');
             style.innerHTML=`
             #relleno{
                 height:55px;
