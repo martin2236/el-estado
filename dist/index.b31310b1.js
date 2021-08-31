@@ -460,10 +460,9 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "processLinks", ()=>processLinks
 );
 var _footer = require("./customs-el/footer");
-var _inputs = require("./customs-el/inputs");
 var _nav = require("./customs-el/nav");
-var _buttons = require("./customs-el/buttons");
 var _router = require("./router/router");
+var _formOptionComp = require("./components/form-option-comp");
 var _form = require("./customs-el/form");
 var _estado = require("./estado");
 function processLinks(container) {
@@ -476,10 +475,9 @@ function processLinks(container) {
 }
 function main() {
     _form.crearFormulario();
-    _buttons.crearButtons();
     _nav.crearNav();
     _footer.crearFooter();
-    _inputs.crearInput();
+    _formOptionComp.CrearFormularioGrande();
     _estado.estado.setState({
         nombre: ""
     });
@@ -489,44 +487,32 @@ function main() {
 }
 main();
 
-},{"./customs-el/buttons":"aiCZY","./customs-el/footer":"ghCnK","./customs-el/inputs":"l4tm9","./customs-el/nav":"iDbw2","./router/router":"fpKnW","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","./customs-el/form":"4eeiO","./estado":"fObVz"}],"aiCZY":[function(require,module,exports) {
+},{"./customs-el/footer":"ghCnK","./customs-el/nav":"iDbw2","./router/router":"fpKnW","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","./customs-el/form":"4eeiO","./estado":"fObVz","./components/form-option-comp":"2jmMq"}],"ghCnK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "crearButtons", ()=>crearButtons
+parcelHelpers.export(exports, "crearFooter", ()=>crearFooter
 );
-function crearButtons() {
-    class ButtonEl extends HTMLElement {
+function crearFooter() {
+    class Footer extends HTMLElement {
         constructor(){
             super();
             this.render();
         }
         render() {
-            const clase = this.getAttribute("id");
-            const valor = this.textContent;
             var shadow = this.attachShadow({
                 mode: 'open'
             });
             const d = document;
-            const BTNLleno = d.createElement("a");
-            BTNLleno.textContent = valor;
-            BTNLleno.setAttribute("href", "");
-            BTNLleno.setAttribute("id", "relleno");
-            const BTNVacio = d.createElement("a");
-            BTNVacio.textContent = valor;
-            BTNLleno.setAttribute("href", "");
-            BTNVacio.setAttribute("id", "vacio");
-            const style = d.createElement('style');
-            style.innerHTML = `\n            #relleno{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                background: #9CBBE9;\n                text-decoration:none;\n                color:#000;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n            }\n            #vacio{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n                backgrounf:#fff;\n                border:2px solid #000;\n                text-decoration:none;\n                color:#000;\n            }\n            `;
-            if (clase == "relleno") {
-                shadow.appendChild(BTNLleno);
-                BTNLleno.appendChild(style);
-            } else if (clase == "vacio") {
-                shadow.appendChild(BTNVacio);
-                BTNVacio.appendChild(style);
-            }
+            const div = d.createElement("div");
+            div.textContent = "footer";
+            div.classList.add("nav");
+            const style = document.createElement('style');
+            style.innerHTML = `\n            .nav{\n                height:233px;\n                width:100%;\n                font-size:30px;\n                display:flex;\n                justify-content:center;\n                align-items:center;\n                background: #FFA0EA;\n\n            }\n            `;
+            shadow.appendChild(div);
+            div.appendChild(style);
         }
     }
-    customElements.define("boton-el", ButtonEl);
+    customElements.define("footer-el", Footer);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"JacNc":[function(require,module,exports) {
@@ -561,95 +547,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"ghCnK":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "crearFooter", ()=>crearFooter
-);
-function crearFooter() {
-    class Footer extends HTMLElement {
-        constructor(){
-            super();
-            this.render();
-        }
-        render() {
-            var shadow = this.attachShadow({
-                mode: 'open'
-            });
-            const d = document;
-            const div = d.createElement("div");
-            div.textContent = "footer";
-            div.classList.add("nav");
-            const style = document.createElement('style');
-            style.innerHTML = `\n            .nav{\n                height:233px;\n                width:100%;\n                font-size:30px;\n                display:flex;\n                justify-content:center;\n                align-items:center;\n                background: #FFA0EA;\n\n            }\n            `;
-            shadow.appendChild(div);
-            div.appendChild(style);
-        }
-    }
-    customElements.define("footer-el", Footer);
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"l4tm9":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "crearInput", ()=>crearInput
-);
-function crearInput() {
-    class InputEl extends HTMLElement {
-        constructor(){
-            super();
-            this.render();
-        }
-        render() {
-            const clase = this.classList.value;
-            const tipo = this.textContent;
-            var shadow = this.attachShadow({
-                mode: 'open'
-            });
-            const d = document;
-            const div = d.createElement("div");
-            div.classList.add("simple");
-            const label = d.createElement("label");
-            label.classList.add("label");
-            label.textContent = tipo;
-            const input = d.createElement("input");
-            input.classList.add("input");
-            input.setAttribute("placeholder", `Ingresa tu ${tipo.toLocaleLowerCase()}`);
-            const label2 = d.createElement("label");
-            label2.classList.add("label");
-            label2.textContent = "Alguna de estas tres opciones";
-            const select = d.createElement("select");
-            select.classList.add("select");
-            const option1 = d.createElement("option");
-            option1.classList.add("piedra");
-            option1.textContent = "piedra";
-            const option2 = d.createElement("option");
-            option2.classList.add("papel");
-            option2.textContent = "papel";
-            const option3 = d.createElement("option");
-            option3.classList.add("tijera");
-            option3.textContent = "tijera";
-            const style = document.createElement('style');
-            style.innerHTML = `\n            .simple{\n                display:inline;\n                width:312px;\n            }\n            .label{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .input{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n            .select{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n           .piedra,\n           .papel,\n           .tijera{\n           max-width:312px;\n           }\n            .label2{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            `;
-            if (clase == "simple") {
-                shadow.appendChild(div);
-                div.appendChild(label);
-                div.appendChild(input);
-                div.appendChild(style);
-            } else if (clase == "select") {
-                shadow.appendChild(select);
-                select.appendChild(label2);
-                select.appendChild(style);
-                select.appendChild(option1);
-                select.appendChild(option2);
-                select.appendChild(option3);
-            }
-        }
-    }
-    customElements.define("input-el", InputEl);
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"iDbw2":[function(require,module,exports) {
+},{}],"iDbw2":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crearNav", ()=>crearNav
@@ -685,28 +583,18 @@ parcelHelpers.export(exports, "router", ()=>router
 parcelHelpers.export(exports, "goTo", ()=>goTo
 );
 var _formComp = require("../components/form-comp");
-var _agradecimientoComp = require("../components/agradecimiento-comp");
-var _indexComp = require("../components/index-comp");
 var _ = require("..");
 function router(path) {
     const rutas = [
         {
             path: /\/form/,
             funcion: _formComp.crearForm
-        },
-        {
-            path: /\/agradecimiento/,
-            funcion: _agradecimientoComp.crearAgradecimiento
-        },
-        {
-            path: /\/index/,
-            function: _indexComp.crearIndex
-        }
+        }, 
     ];
     for (const r of rutas)if (r.path.test(path)) {
         const el = r.funcion();
         const contenedor = document.querySelector(".contenedor");
-        if (contenedor.firstChild) contenedor.firstChild.remove();
+        if (contenedor.firstChild) contenedor.innerHTML = "";
         contenedor.appendChild(el);
         _.processLinks(contenedor);
     }
@@ -716,7 +604,7 @@ function goTo(path) {
     }, "", path);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../components/form-comp":"auZ4N","..":"4aleK","../components/agradecimiento-comp":"7Gv7O","../components/index-comp":"wPx1A"}],"auZ4N":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../components/form-comp":"auZ4N","..":"4aleK"}],"auZ4N":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crearForm", ()=>crearForm
@@ -724,31 +612,7 @@ parcelHelpers.export(exports, "crearForm", ()=>crearForm
 function crearForm() {
     const div = document.createElement("div");
     div.classList.add("container");
-    div.innerHTML = `\n    <p class = "h1"> necesitamos algunos datos más </p>\n    <input-el class="simple">Email</input-el>\n    <input-el class="simple">Comida favorita</input-el>\n    <input-el class="select"></input-el>\n    <boton-el id="relleno"  href="/agradecimiento" class="link">Continuar</boton-el>\n    <boton-el id="vacio"  href="/src/" class="link" >Volver</boton-el>\n    `;
-    return div;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"7Gv7O":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "crearAgradecimiento", ()=>crearAgradecimiento
-);
-function crearAgradecimiento() {
-    const div = document.createElement("div");
-    div.classList.add("container");
-    div.innerHTML = `\n    <p class="p2" >Toda la información que nos brindaste es muy importante</p>\n   \n    <boton-el id="relleno" href="/index" class="link" >De nada</boton-el>\n    \n    `;
-    return div;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"wPx1A":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "crearIndex", ()=>crearIndex
-);
-function crearIndex() {
-    const div = document.createElement("div");
-    div.classList.add("container");
-    div.innerHTML = `\n    <H1 class="h1">Te doy la bienvenida a mi site</H1>\n    <p class="p" >Lorem ipsum dolor sit amet consectetur adipisicing elit. \n    Veniam consequuntur iure voluptas quia accusantium voluptatum\n    aspernatur provident et repudiandae quam veritatis,\n    libero porro sit beatae laboriosam a aut consequatur quidem? soy el index\n    </p> \n\n    <p class="p2" >Para continuar ingresa tu nombre</p>\n    <formulario-el></formulario-el>\n   \n    `;
+    div.innerHTML = `\n    \n    <p> Hola </p>\n    <formulario-grande></formulario-grande>\n   \n    `;
     return div;
 }
 
@@ -758,6 +622,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crearFormulario", ()=>crearFormulario
 );
 var _estado = require("../estado");
+var _router = require("../router/router");
 function crearFormulario() {
     class Form extends HTMLElement {
         constructor(){
@@ -776,6 +641,7 @@ function crearFormulario() {
             const d = document;
             const form = d.createElement("form");
             form.classList.add("form");
+            form.setAttribute("href", "/form");
             const label = d.createElement("label");
             label.classList.add("label");
             label.textContent = "Nombre";
@@ -798,18 +664,19 @@ function crearFormulario() {
             const formulario = this.shadow.querySelector(".form");
             formulario.addEventListener("submit", (e)=>{
                 e.preventDefault();
-                console.log(e.target.nombre.value);
                 _estado.estado.setState({
                     ..._estado.estado.getState(),
                     nombre: e.target.nombre.value
                 });
+                const ruta = e.target.getAttribute("href");
+                _router.goTo(ruta);
             });
         }
     }
     customElements.define("formulario-el", Form);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../estado":"fObVz"}],"fObVz":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../estado":"fObVz","../router/router":"fpKnW"}],"fObVz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "estado", ()=>estado
@@ -829,6 +696,55 @@ const estado = {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}]},["8uBhv","4aleK"], "4aleK", "parcelRequire98b0")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"2jmMq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "CrearFormularioGrande", ()=>CrearFormularioGrande
+);
+var _estado = require("../estado");
+function CrearFormularioGrande() {
+    class FormGrande extends HTMLElement {
+        constructor(){
+            super();
+            this.shadow = this.attachShadow({
+                mode: 'open'
+            });
+            this.render();
+            _estado.estado.subscribe(()=>{
+                this.render();
+            });
+            const ultimoEstado = _estado.estado.getState();
+            this.nombre = ultimoEstado.nombre || "";
+        }
+        render() {
+            const d = document;
+            const label2 = d.createElement("label");
+            label2.classList.add("label");
+            label2.textContent = "Alguna de estas tres opciones";
+            const select = d.createElement("select");
+            select.classList.add("select");
+            const option1 = d.createElement("option");
+            option1.classList.add("piedra");
+            option1.textContent = "piedra";
+            const option2 = d.createElement("option");
+            option2.classList.add("papel");
+            option2.textContent = "papel";
+            const option3 = d.createElement("option");
+            option3.classList.add("tijera");
+            option3.textContent = "tijera";
+            const style = document.createElement('style');
+            style.innerHTML = `\n            .simple{\n                display:inline;\n                width:312px;\n            }\n            .label{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .input{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n            .select{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n           .piedra,\n           .papel,\n           .tijera{\n           max-width:312px;\n           }\n            .label2{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            `;
+            this.shadow.appendChild(select);
+            select.appendChild(label2);
+            select.appendChild(style);
+            select.appendChild(option1);
+            select.appendChild(option2);
+            select.appendChild(option3);
+        }
+    }
+    customElements.define("formulario-grande", FormGrande);
+}
+
+},{"../estado":"fObVz","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}]},["8uBhv","4aleK"], "4aleK", "parcelRequire98b0")
 
 //# sourceMappingURL=index.b31310b1.js.map

@@ -1,28 +1,21 @@
-export function crearInput(){
-    class InputEl extends HTMLElement{
+import { estado } from "../estado"
+export function CrearFormularioGrande(){
+    class FormGrande extends HTMLElement{
+        shadow:ShadowRoot
+        nombre:string
         constructor(){
             super()
+            this.shadow = this.attachShadow({mode:'open'})
             this.render()
+            estado.subscribe(()=>{
+                this.render()
+            })
+            const ultimoEstado = estado.getState()
+            this.nombre = ultimoEstado.nombre || ""
         }
         render(){
-
-            const clase = this.classList.value
-            const tipo = this.textContent
-            
-           var shadow = this.attachShadow({mode: 'open'});
             const d = document
-            const div = d.createElement("div")
-            div.classList.add("simple")
-           
-            const label = d.createElement("label")
-            label.classList.add("label")
-            label.textContent = tipo
-           
-            const input =d.createElement("input")
-            input.classList.add("input")
-            input.setAttribute("placeholder",`Ingresa tu ${tipo.toLocaleLowerCase()}`)
             
-
             const label2 = d.createElement("label")
             label2.classList.add("label")
             label2.textContent = "Alguna de estas tres opciones"
@@ -80,13 +73,8 @@ export function crearInput(){
                 font-size: 18px;
             }
             `
-            if(clase == "simple"){
-                shadow.appendChild(div)
-                div.appendChild(label)
-                div.appendChild(input)
-                div.appendChild(style)
-            } else if (clase == "select"){
-                shadow.appendChild(select)
+           
+               this.shadow.appendChild(select)
                 select.appendChild(label2)
                 select.appendChild(style)
                 select.appendChild(option1)
@@ -95,6 +83,6 @@ export function crearInput(){
             }
           
         }
+        customElements.define("formulario-grande",FormGrande)
     }
-    customElements.define("input-el",InputEl)
-}
+    

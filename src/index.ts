@@ -1,10 +1,8 @@
 import { crearFooter } from "./customs-el/footer"
-import { crearInput } from "./customs-el/inputs"
 import { crearNav } from "./customs-el/nav"
-import { crearButtons } from "./customs-el/buttons"
 import { goTo } from "./router/router"
 import { router } from "./router/router"
-import { crearIndex } from "./components/index-comp"
+import { CrearFormularioGrande } from "./components/form-option-comp"
 
 import { crearFormulario } from "./customs-el/form"
 import { estado } from "./estado"
@@ -23,10 +21,9 @@ export function processLinks(container){
 
 function main(){
 crearFormulario()
-crearButtons()
 crearNav()
 crearFooter()
-crearInput()
+CrearFormularioGrande()
 estado.setState({nombre:""})
 
 

@@ -1,4 +1,5 @@
 import { estado } from "../estado";
+import { goTo } from "../router/router";
 export function crearFormulario(){
    
     class Form extends HTMLElement{
@@ -20,6 +21,7 @@ export function crearFormulario(){
             const d = document
             const form = d.createElement("form")
             form.classList.add("form")
+            form.setAttribute("href","/form")
 
             const label = d.createElement("label")
             label.classList.add("label")
@@ -80,10 +82,11 @@ export function crearFormulario(){
             const formulario = this.shadow.querySelector(".form")
             formulario.addEventListener("submit",(e:any)=>{
                     e.preventDefault()
-                    console.log(e.target.nombre.value)
                     estado.setState({...estado.getState(),
                         nombre: e.target.nombre.value
                     })
+                    const ruta =e.target.getAttribute("href")
+                    goTo(ruta)
             })
         }
     }
