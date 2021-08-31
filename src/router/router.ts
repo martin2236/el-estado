@@ -1,5 +1,4 @@
 import { crearForm } from "../components/form-comp"
-import { processLinks } from ".."
 
 export function router(path){
     const rutas = [
@@ -14,10 +13,10 @@ export function router(path){
          const el =  r.funcion()
          const contenedor = document.querySelector(".contenedor")
          if (contenedor.firstChild){
-             contenedor.innerHTML=""
+            contenedor.firstChild.remove()
          }
          contenedor.appendChild(el)
-         processLinks(contenedor)
+
         }
     }
 }

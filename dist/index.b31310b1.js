@@ -455,39 +455,26 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"4aleK":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "processLinks", ()=>processLinks
-);
 var _footer = require("./customs-el/footer");
 var _nav = require("./customs-el/nav");
 var _router = require("./router/router");
-var _formOptionComp = require("./components/form-option-comp");
+var _formOptionComp = require("./customs-el/form-option-comp");
 var _form = require("./customs-el/form");
 var _estado = require("./estado");
-function processLinks(container) {
-    const els = document.querySelectorAll(".link");
-    for (const link of els)link.addEventListener("click", function(e) {
-        e.preventDefault();
-        var ruta = this.getAttribute("href");
-        _router.goTo(ruta);
-    });
-}
 function main() {
     _form.crearFormulario();
     _nav.crearNav();
     _footer.crearFooter();
     _formOptionComp.CrearFormularioGrande();
-    _estado.estado.setState({
-        nombre: ""
-    });
+    const lastState = _estado.estado.getState();
+    console.log(lastState);
     window.addEventListener("load", ()=>{
         _router.router(location.pathname);
     });
 }
 main();
 
-},{"./customs-el/footer":"ghCnK","./customs-el/nav":"iDbw2","./router/router":"fpKnW","@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","./customs-el/form":"4eeiO","./estado":"fObVz","./components/form-option-comp":"2jmMq"}],"ghCnK":[function(require,module,exports) {
+},{"./customs-el/footer":"ghCnK","./customs-el/nav":"iDbw2","./router/router":"fpKnW","./customs-el/form":"4eeiO","./estado":"fObVz","./customs-el/form-option-comp":"kUdKB"}],"ghCnK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crearFooter", ()=>crearFooter
@@ -583,7 +570,6 @@ parcelHelpers.export(exports, "router", ()=>router
 parcelHelpers.export(exports, "goTo", ()=>goTo
 );
 var _formComp = require("../components/form-comp");
-var _ = require("..");
 function router(path) {
     const rutas = [
         {
@@ -594,9 +580,8 @@ function router(path) {
     for (const r of rutas)if (r.path.test(path)) {
         const el = r.funcion();
         const contenedor = document.querySelector(".contenedor");
-        if (contenedor.firstChild) contenedor.innerHTML = "";
+        if (contenedor.firstChild) contenedor.firstChild.remove();
         contenedor.appendChild(el);
-        _.processLinks(contenedor);
     }
 }
 function goTo(path) {
@@ -604,17 +589,38 @@ function goTo(path) {
     }, "", path);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../components/form-comp":"auZ4N","..":"4aleK"}],"auZ4N":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../components/form-comp":"auZ4N"}],"auZ4N":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "crearForm", ()=>crearForm
 );
+var _estado = require("../estado");
 function crearForm() {
     const div = document.createElement("div");
     div.classList.add("container");
-    div.innerHTML = `\n    \n    <p> Hola </p>\n    <formulario-grande></formulario-grande>\n   \n    `;
+    div.innerHTML = `\n    <h1 class="h1">Hola ${_estado.estado.getState().nombre} </h1> \n    <p class="p2">Necesitamos algunos datos más</p>\n    <formulario-grande></formulario-grande>\n   \n    `;
     return div;
 }
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../estado":"fObVz"}],"fObVz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "estado", ()=>estado
+);
+const estado = {
+    data: {
+    },
+    listener: [],
+    getState () {
+        return this.data;
+    },
+    setState (newData) {
+        return this.data = newData;
+    },
+    subscribe (callback) {
+        this.listener.push(callback);
+    }
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"4eeiO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -630,11 +636,13 @@ function crearFormulario() {
             this.shadow = this.attachShadow({
                 mode: 'open'
             });
-            this.nombre = _estado.estado.getState().nombre;
+            this.render();
             _estado.estado.subscribe(()=>{
-                this.nombre = _estado.estado.getState().nombre;
-                this.render();
+                this.syncWithState();
             });
+        }
+        syncWithState() {
+            const ultimoEstado = _estado.estado.getState();
             this.render();
         }
         render() {
@@ -655,7 +663,7 @@ function crearFormulario() {
             BTNLleno.setAttribute("href", "");
             BTNLleno.setAttribute("class", "relleno");
             const style = document.createElement('style');
-            style.innerHTML = `\n            .form{\n                height:233px;\n                width:100%;\n                font-size:30px;\n                background: #FFA0EA;\n\n            }\n            .label{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .input{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n            .relleno{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                background: #9CBBE9;\n                text-decoration:none;\n                color:#000;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n            }\n            `;
+            style.innerHTML = `\n            .form{\n                display:flex;\n                flex-direction:column;\n                width:312px;\n              justify-content:center\n\n            }\n            .label{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .input{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n                margin-bottom:16px;\n            }\n            .relleno{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                background: #9CBBE9;\n                text-decoration:none;\n                color:#000;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n            }\n            `;
             this.shadow.appendChild(form);
             form.appendChild(style);
             form.appendChild(label);
@@ -664,10 +672,13 @@ function crearFormulario() {
             const formulario = this.shadow.querySelector(".form");
             formulario.addEventListener("submit", (e)=>{
                 e.preventDefault();
+                // console.log(e.target.nombre.value)
                 _estado.estado.setState({
                     ..._estado.estado.getState(),
                     nombre: e.target.nombre.value
                 });
+                const lastState = _estado.estado.getState();
+                console.log(lastState);
                 const ruta = e.target.getAttribute("href");
                 _router.goTo(ruta);
             });
@@ -676,27 +687,7 @@ function crearFormulario() {
     customElements.define("formulario-el", Form);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../estado":"fObVz","../router/router":"fpKnW"}],"fObVz":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "estado", ()=>estado
-);
-const estado = {
-    data: {
-    },
-    listener: [],
-    getState () {
-        return this.data;
-    },
-    setState (newData) {
-        return this.data = newData;
-    },
-    subscribe (callback) {
-        this.listener.push(callback);
-    }
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"2jmMq":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc","../estado":"fObVz","../router/router":"fpKnW"}],"kUdKB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "CrearFormularioGrande", ()=>CrearFormularioGrande
@@ -711,35 +702,76 @@ function CrearFormularioGrande() {
             });
             this.render();
             _estado.estado.subscribe(()=>{
-                this.render();
+                this.syncWithState();
             });
+        }
+        syncWithState() {
             const ultimoEstado = _estado.estado.getState();
-            this.nombre = ultimoEstado.nombre || "";
+            this.render();
         }
         render() {
             const d = document;
+            const form = d.createElement("form");
+            form.classList.add("form");
+            form.setAttribute("href", "/form");
+            const labelE = d.createElement("label");
+            labelE.classList.add("label");
+            labelE.textContent = "Email";
+            const inputE = d.createElement("input");
+            inputE.classList.add("input");
+            inputE.setAttribute("type", "text");
+            inputE.setAttribute("name", "email");
+            const labelC = d.createElement("label");
+            labelC.classList.add("label");
+            labelC.textContent = "Comida favorita";
+            const inputC = d.createElement("input");
+            inputC.classList.add("input");
+            inputC.setAttribute("type", "text");
+            inputC.setAttribute("name", "comida");
             const label2 = d.createElement("label");
             label2.classList.add("label");
             label2.textContent = "Alguna de estas tres opciones";
             const select = d.createElement("select");
             select.classList.add("select");
+            select.setAttribute("name", "select");
             const option1 = d.createElement("option");
-            option1.classList.add("piedra");
+            option1.classList.add("opcion");
             option1.textContent = "piedra";
             const option2 = d.createElement("option");
-            option2.classList.add("papel");
+            option2.classList.add("opcion");
             option2.textContent = "papel";
             const option3 = d.createElement("option");
-            option3.classList.add("tijera");
+            option3.classList.add("opcion");
             option3.textContent = "tijera";
+            const BTNLleno = d.createElement("button");
+            BTNLleno.textContent = "Enviar";
+            BTNLleno.setAttribute("class", "relleno");
             const style = document.createElement('style');
-            style.innerHTML = `\n            .simple{\n                display:inline;\n                width:312px;\n            }\n            .label{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .input{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n            .select{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n            }\n           .piedra,\n           .papel,\n           .tijera{\n           max-width:312px;\n           }\n            .label2{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            `;
-            this.shadow.appendChild(select);
-            select.appendChild(label2);
+            style.innerHTML = `\n\n\n            .form{\n                display:flex;\n                flex-direction:column;\n                width:312px;\n              justify-content:center\n            }\n           \n            .input,\n            .select{\n                display: block;\n                height:55px;\n                width:312px;\n                border-radius:4px;\n                border:2px solid #000;\n                font-size:16px;\n                margin-bottom:40px;\n            }\n            .opcion{\n           width:312px;\n           }\n            .label2, \n            .labelE,\n            .labelC{\n                width:312px;\n                display: inline;\n                font-size: 18px;\n            }\n            .relleno{\n                height:55px;\n                width:312px;\n                font-size:22px;\n                border-radius:4px;\n                background: #9CBBE9;\n                text-decoration:none;\n                color:#000;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n            }\n            `;
+            this.shadow.appendChild(form);
+            form.appendChild(labelE);
+            form.appendChild(inputE);
+            form.appendChild(labelC);
+            form.appendChild(inputC);
+            form.appendChild(label2);
+            form.appendChild(select);
             select.appendChild(style);
             select.appendChild(option1);
             select.appendChild(option2);
             select.appendChild(option3);
+            form.appendChild(BTNLleno);
+            const formulario = this.shadow.querySelector(".form");
+            formulario.addEventListener("submit", (e)=>{
+                e.preventDefault();
+                _estado.estado.setState({
+                    ..._estado.estado.getState(),
+                    email: e.target.email.value,
+                    comida: e.target.comida.value,
+                    opcion: e.target.select.value
+                });
+                const lastState = _estado.estado.getState();
+                console.log(lastState);
+            });
         }
     }
     customElements.define("formulario-grande", FormGrande);

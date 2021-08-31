@@ -4,18 +4,22 @@ export function crearFormulario(){
    
     class Form extends HTMLElement{
         shadow:ShadowRoot;
-        nombre:string;
+        
         constructor(){
             super()
             this.shadow = this.attachShadow({mode: 'open'});
-            
-            this.nombre = estado.getState().nombre
+             this.render()
+          
         estado.subscribe(()=>{
-            this.nombre =estado.getState().nombre
-            this.render()
+          this.syncWithState()
         })
-        this.render()
+       
         }
+        syncWithState(){ 
+            const ultimoEstado = estado.getState()
+            this.render()
+        }
+
         render(){
             
             const d = document
@@ -41,10 +45,10 @@ export function crearFormulario(){
             const style = document.createElement('style');
             style.innerHTML=`
             .form{
-                height:233px;
-                width:100%;
-                font-size:30px;
-                background: #FFA0EA;
+                display:flex;
+                flex-direction:column;
+                width:312px;
+              justify-content:center
 
             }
             .label{
@@ -59,6 +63,7 @@ export function crearFormulario(){
                 border-radius:4px;
                 border:2px solid #000;
                 font-size:16px;
+                margin-bottom:16px;
             }
             .relleno{
                 height:55px;
@@ -82,9 +87,13 @@ export function crearFormulario(){
             const formulario = this.shadow.querySelector(".form")
             formulario.addEventListener("submit",(e:any)=>{
                     e.preventDefault()
+                   // console.log(e.target.nombre.value)
                     estado.setState({...estado.getState(),
                         nombre: e.target.nombre.value
                     })
+                    const lastState =  estado.getState()
+                    console.log(lastState)
+                    
                     const ruta =e.target.getAttribute("href")
                     goTo(ruta)
             })
